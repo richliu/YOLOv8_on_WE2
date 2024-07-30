@@ -1,0 +1,25 @@
+#!/bin/bash
+container_name=$USER-fvp
+usrid=`id -u`
+grpid=`id -g`
+
+### check container is ready
+echo "create $container_name container"
+docker run --rm -it -v /labs/corstone/docker/runtime:/home/ml-embedded-evaluation-kit/runtime \
+		-e DISPLAY=:0 \
+		$(DOCKER_IMAGE) bash 
+# if [ `docker ps | grep -c $container_name` != 1 ]; then
+#     docker run -idt --name $container_name --rm \
+#         -v /home/$USER/.ssh:/home/ubuntu/.ssh \
+#         -v $PWD:/home/dev/iot-yocto :ubuntu 
+# else
+#     echo "container $container_name existed"
+# fi 
+
+# if [ `docker ps | grep -c $container_name` = 1 ]; then
+#     echo "set dev uid and gid"
+#     docker exec -d $container_name usermod -u $usrid -g $grpid dev
+#     ####
+# else
+#     echo "container $container_name is not ready"
+# fi

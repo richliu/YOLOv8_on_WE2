@@ -209,7 +209,7 @@ vela --accelerator-config ethos-u55-64 --config himax_vela.ini --system-config M
     - Corstone SSE-300 FVP: aligned with the Arm MPS3 development platform and includes both the Cortex-M55 and the Ethos-U55 processors.
         ```
         # Fetch Corstone SSE-300 FVP
-        wget https://developer.arm.com/-/media/Arm%20Developer%20Community/Downloads/OSS/FVP/Corstone-300/MPS3/FVP_Corstone_SSE-300_Ethos-U55_11.14_24.tgz
+        wget --no-check-certificate https://developer.arm.com/-/media/Arm%20Developer%20Community/Downloads/OSS/FVP/Corstone-300/MPS3/FVP_Corstone_SSE-300_Ethos-U55_11.14_24.tgz
         ```
 
         ![alt text](images/Fetch_Corstone_SSE_300_FVP.png)
