@@ -195,7 +195,7 @@ ENV GIT_SSL_NO_VERIFY=1
 # +----------------------------------------------------------------------------
 
 WORKDIR /home
-RUN git clone "https://github.com/anitawuitri/YOLOv8_on_WE2.git" ${ITRI_MLFVP_DIR}
+RUN git clone -b ci_env "https://github.com/anitawuitri/YOLOv8_on_WE2.git" ${ITRI_MLFVP_DIR}
 # Change working directory
 WORKDIR ${ITRI_MLFVP_DIR}
 # Initialize submodules
