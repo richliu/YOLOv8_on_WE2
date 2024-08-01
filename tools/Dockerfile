@@ -32,11 +32,15 @@ RUN apt-get update && \
     apt-get install -y \
     make \
     build-essential \
+    fakeroot \
+    dpkg-dev \
     git \
     python3 \
+    python3-pip \
     python3.8-venv \
     libpython3.8-dev \
     cmake \
+    gnutls-bin \
     # python3.10 \
     # python3-pip \
     # python3.10-dev \
@@ -58,6 +62,7 @@ RUN apt-get update && \
 
 # Check versions
 RUN gcc --version && g++ --version && python3 --version
+RUN git config --global http.sslVerify false
 RUN git config --global http.postBuffer 1048576000
 RUN git config --global https.postBuffer 1048576000
 
@@ -76,7 +81,7 @@ RUN curl -k -L https://developer.arm.com/-/media/Files/downloads/gnu-rm/10-2020q
     rm gcc-arm-none-eabi.tar.xz
 
 ENV PATH="/opt/gcc-arm-none-eabi/bin/:$PATH"
-ENV GIT_SSL_NO_VERIFY=1
+
 
 # # Download and install Arm Corstone-300 FVP
 # RUN wget --no-check-certificate "${FVP_BASE_URL}/FVP/Corstone-300/${FVP_300}_${FVP_VER_300}_Linux64.tgz" 2>/dev/null && \
@@ -243,4 +248,16 @@ RUN ./build_default.py --npu-config-name ethos-u55-64
 ## cd ..
 WORKDIR ${ITRI_MLFVP_DIR}
 RUN tools/post_install.sh
+
+## Install vela
+WORKDIR ${ITRI_MLFVP_DIR}/vela
+RUN pip install ethos-u-vela
+
+## cd ml-embedded-evaluation-kit/
+WORKDIR ${ITRI_MLFVP_DIR}/ml-embedded-evaluation-kit
+RUN mkdir build_img_yolov8_192
+WORKDIR ${ITRI_MLFVP_DIR}/ml-embedded-evaluation-kit/build_img_yolov8_192
+ENV GIT_SSL_NO_VERIFY=1
+RUN cmake ../ -DUSE_CASE_BUILD=img_yolov8_192 \-DETHOS_U_NPU_ENABLED=ON
+#RUN make -j8
 
