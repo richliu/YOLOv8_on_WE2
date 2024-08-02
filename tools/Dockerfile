@@ -252,12 +252,13 @@ RUN tools/post_install.sh
 ## Install vela
 WORKDIR ${ITRI_MLFVP_DIR}/vela
 RUN pip install ethos-u-vela
+# vela --accelerator-config ethos-u55-64 --config himax_vela.ini --system-config My_Sys_Cfg --memory-mode My_Mem_Mode_Parent --output-dir ./img_yolov8_pose_192 ./img_yolov8_pose_192/yolov8n-pose_full_integer_quant.tflite
 
 ## cd ml-embedded-evaluation-kit/
 WORKDIR ${ITRI_MLFVP_DIR}/ml-embedded-evaluation-kit
-RUN mkdir build_img_yolov8_192
-WORKDIR ${ITRI_MLFVP_DIR}/ml-embedded-evaluation-kit/build_img_yolov8_192
+#RUN mkdir build_img_yolov8_192
+#WORKDIR ${ITRI_MLFVP_DIR}/ml-embedded-evaluation-kit/build_img_yolov8_192
 ENV GIT_SSL_NO_VERIFY=1
-RUN cmake ../ -DUSE_CASE_BUILD=img_yolov8_192 \-DETHOS_U_NPU_ENABLED=ON
+#RUN cmake ../ -DUSE_CASE_BUILD=img_yolov8_192 \-DETHOS_U_NPU_ENABLED=ON
 #RUN make -j8
 

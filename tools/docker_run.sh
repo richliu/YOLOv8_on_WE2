@@ -2,12 +2,18 @@
 container_name=$USER-fvp
 usrid=`id -u`
 grpid=`id -g`
+DOCKER_IMAGE="himax/fvp"
+
+### docker build
+docker build -t himax/fvp
 
 ### check container is ready
 echo "create $container_name container"
-docker run --rm -it -v /labs/corstone/docker/runtime:/home/ml-embedded-evaluation-kit/runtime \
-		-e DISPLAY=:0 \
-		$(DOCKER_IMAGE) bash 
+#docker run --rm -it $(DOCKER_IMAGE) bash 
+docker run --rm -it himax/fvp bash
+#docker run --rm -it -v /labs/corstone/docker/runtime:/home/ml-embedded-evaluation-kit/runtime \
+#		-e DISPLAY=:0 \
+#		$(DOCKER_IMAGE) bash 
 # if [ `docker ps | grep -c $container_name` != 1 ]; then
 #     docker run -idt --name $container_name --rm \
 #         -v /home/$USER/.ssh:/home/ubuntu/.ssh \
