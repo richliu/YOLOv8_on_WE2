@@ -256,9 +256,10 @@ RUN pip install ethos-u-vela
 
 ## cd ml-embedded-evaluation-kit/
 WORKDIR ${ITRI_MLFVP_DIR}/ml-embedded-evaluation-kit
+RUN pip install Pillow
 #RUN mkdir build_img_yolov8_192
 #WORKDIR ${ITRI_MLFVP_DIR}/ml-embedded-evaluation-kit/build_img_yolov8_192
-ENV GIT_SSL_NO_VERIFY=1
+# ENV GIT_SSL_NO_VERIFY=1
 #RUN cmake ../ -DUSE_CASE_BUILD=img_yolov8_192 \-DETHOS_U_NPU_ENABLED=ON
 #RUN make -j8
 

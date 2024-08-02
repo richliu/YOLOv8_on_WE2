@@ -10,7 +10,7 @@ docker build -t himax/fvp
 ### check container is ready
 echo "create $container_name container"
 #docker run --rm -it $(DOCKER_IMAGE) bash 
-docker run --rm -it himax/fvp bash
+docker run --rm -idt himax/fvp bash
 #docker run --rm -it -v /labs/corstone/docker/runtime:/home/ml-embedded-evaluation-kit/runtime \
 #		-e DISPLAY=:0 \
 #		$(DOCKER_IMAGE) bash 
