@@ -10,17 +10,12 @@ DOCKER_IMAGE="himax/fvp"
 ### check container is ready
 echo "create $container_name container"
 #docker run --rm -it himax/fvp bash bash 
-docker run --rm -idt himax/fvp bash
+docker run --rm --name himax_fvp -idt himax/fvp bash
+docker run --rm -idt -e DISPLAY=:10.0 himax/fvp bash
 #docker run --rm -it -v /labs/corstone/docker/runtime:/home/ml-embedded-evaluation-kit/runtime \
 #		-e DISPLAY=:0 \
 #		$(DOCKER_IMAGE) bash 
-# if [ `docker ps | grep -c $container_name` != 1 ]; then
-#     docker run -idt --name $container_name --rm \
-#         -v /home/$USER/.ssh:/home/ubuntu/.ssh \
-#         -v $PWD:/home/dev/iot-yocto :ubuntu 
-# else
-#     echo "container $container_name existed"
-# fi 
+
 
 # if [ `docker ps | grep -c $container_name` = 1 ]; then
 #     echo "set dev uid and gid"
