@@ -24,6 +24,17 @@ Before starting, you will need the following:
 ## Prerequisites
 
 # Run Docker for FVP
+- Git clone from github
+  ```
+  git clone -b ci_env https://github.com/anitawuitri/YOLOv8_on_WE2.git 
+  ```
+- Build Docker file
+  ```
+  cd YOLOv8_on_WE2
+  cd tools
+  docker build -t himax/fvp .
+  ```
+- 
 
 
 # Review
