@@ -121,12 +121,12 @@ WORKDIR ${ITRI_MLFVP_DIR}
 RUN tools/post_install.sh
 
 ## Install vela
-WORKDIR ${ITRI_MLFVP_DIR}/vela
-RUN pip install ethos-u-vela
+# WORKDIR ${ITRI_MLFVP_DIR}/vela
+RUN sudo pip install ethos-u-vela
 # e.g. vela --accelerator-config ethos-u55-64 --config himax_vela.ini --system-config My_Sys_Cfg --memory-mode My_Mem_Mode_Parent --output-dir ./img_yolov8_pose_192 ./img_yolov8_pose_192/yolov8n-pose_full_integer_quant.tflite
 
 ## cd ml-embedded-evaluation-kit/
-WORKDIR ${ITRI_MLFVP_DIR}/ml-embedded-evaluation-kit
+# WORKDIR ${ITRI_MLFVP_DIR}/ml-embedded-evaluation-kit
 RUN pip install Pillow
 # yolov8 example
 # RUN mkdir build_img_yolov8_192

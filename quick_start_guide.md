@@ -24,6 +24,7 @@ Before starting, you will need the following:
 ## Prerequisites
 
 # Run Docker for FVP
+## Build up Himax FVP docker Development and Test Environment
 - Git clone from github
   ```
   git clone -b ci_env https://github.com/anitawuitri/YOLOv8_on_WE2.git 
@@ -34,8 +35,36 @@ Before starting, you will need the following:
   cd tools
   docker build -t himax/fvp .
   ```
-- 
-
+- Run docker container
+  ```
+  docker run --rm --name himax_fvp -idt \
+  -v /home/himax/YOLOv8_on_WE2/docker/runtime:/home/ubuntu/YOLOv8_on_WE2/ml-embedded-evaluation-kit/runtime \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  himax/fvp bash
+  ```
+- Enter container 
+  ```
+  docker exec -it himax_fvp /bin/bash
+  ```
+## Build Yolov8 Models with vela
+  ```
+  cd vela
+  vela --accelerator-config ethos-u55-64 --config himax_vela.ini --system-config My_Sys_Cfg --memory-mode My_Mem_Mode_Parent --output-dir ./img_yolov8_pose_192 ./img_yolov8_pose_192/yolov8n-pose_full_integer_quant.tflite
+  ```
+## Make Yolov8 FVP Inference sample codes
+  ```
+  cd ../ml-embedded-evaluation-kit/
+  mkdir build_img_yolov8_192
+  cd build_img_yolov8_192
+  cmake ../ -DUSE_CASE_BUILD=img_yolov8_192 \-DETHOS_U_NPU_ENABLED=ON
+  make -j4
+  ```
+## RUN FVP
+  ```
+  export DISPLAY=localhost:10.0
+  cd ../../
+  FVP_Corstone_SSE-300/models/Linux64_GCC-6.4/FVP_Corstone_SSE-300_Ethos-U55 -C ethosu.num_macs=64 ml-embedded-evaluation-kit/build_img_yolov8_192/bin/ethos-u-img_yolov8_192.axf
+  ```
 
 # Review
 ## What you've learned
