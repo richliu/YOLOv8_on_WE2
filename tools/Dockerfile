@@ -25,8 +25,10 @@ ENV EVAL_KIT_DIR="/home/ml-embedded-evaluation-kit" \
     FVP_300_SHA="7c269c90b455cb4fb09012f2b9b56a38ca93f3be5100d3425d7d8cc276bb824c"
 
 ## User added
-ENV HIMAX_MLFVP_DIR="/home/ML_FVP_EVALUATION" \
-    ITRI_MLFVP_DIR="/home/YOLOv8_on_WE2"
+RUN useradd -m ubuntu && echo "ubuntu:ubuntu" | chpasswd
+RUN usermod -aG sudo ubuntu
+ENV ITRI_MLFVP_DIR="/home/ubuntu/YOLOv8_on_WE2"
+
 
 RUN apt-get update && \
     apt-get install -y \
@@ -56,11 +58,9 @@ RUN apt-get update && \
     nomacs \
     telnet
 
-# Check versions
-RUN gcc --version && g++ --version && python3 --version
-RUN git config --global http.sslVerify false
-RUN git config --global http.postBuffer 1048576000
-RUN git config --global https.postBuffer 1048576000
+ENV USER_NAME ubuntu
+RUN echo "${USER_NAME} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${USER_NAME} 
+
 
 # Download and install GNU GCC 10.2.1 embedded toolchain
 RUN curl -k -L https://developer.arm.com/-/media/Files/downloads/gnu-rm/10-2020q4/gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux.tar.bz2 -o gcc-arm-none-eabi.tar.xz && \
@@ -69,20 +69,27 @@ RUN curl -k -L https://developer.arm.com/-/media/Files/downloads/gnu-rm/10-2020q
     tar -xf  gcc-arm-none-eabi.tar.xz -C /opt/gcc-arm-none-eabi --strip-components 1 && \
     rm gcc-arm-none-eabi.tar.xz
 
+USER ubuntu
+WORKDIR /home/ubuntu
+
+# Check versions
+RUN gcc --version && g++ --version && python3 --version
+RUN git config --global http.sslVerify false
+RUN git config --global http.postBuffer 1048576000
+RUN git config --global https.postBuffer 1048576000
+
 ENV PATH="/opt/gcc-arm-none-eabi/bin/:$PATH"
 
 # +----------------------------------------------------------------------------
 # | ITRI
 # +----------------------------------------------------------------------------
 
-WORKDIR /home
-RUN git clone -b ci_env "https://github.com/anitawuitri/YOLOv8_on_WE2.git" ${ITRI_MLFVP_DIR}
+RUN git clone -b ci_env "https://github.com/anitawuitri/YOLOv8_on_WE2.git" 
 # Change working directory
 WORKDIR ${ITRI_MLFVP_DIR}
 # Initialize submodules
 RUN git submodule update --init
 
-WORKDIR ${ITRI_MLFVP_DIR}
 
 # Download and install Arm Corstone-300 FVP
 RUN mkdir temp
