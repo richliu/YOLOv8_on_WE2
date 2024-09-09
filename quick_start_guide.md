@@ -38,8 +38,11 @@ Before starting, you will need the following:
 - Run docker container
   ```
   docker run --rm --name himax_fvp -idt \
-  -v /home/himax/YOLOv8_on_WE2/docker/runtime:/home/ubuntu/YOLOv8_on_WE2/ml-embedded-evaluation-kit/runtime \
+  --net=host \
+  -v /home/$USER/YOLOv8_on_WE2/docker/runtime:/home/ubuntu/YOLOv8_on_WE2/ml-embedded-evaluation-kit/runtime \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -v /home/$USER/.Xauthority:/home/ubuntu/.Xauthority:rw \
+  -e DISPLAY=$DISPLAY \
   himax/fvp bash
   ```
 - Enter container 
@@ -61,7 +64,6 @@ Before starting, you will need the following:
   ```
 ## RUN FVP
   ```
-  export DISPLAY=localhost:10.0
   cd ../../
   FVP_Corstone_SSE-300/models/Linux64_GCC-6.4/FVP_Corstone_SSE-300_Ethos-U55 -C ethosu.num_macs=64 ml-embedded-evaluation-kit/build_img_yolov8_192/bin/ethos-u-img_yolov8_192.axf
   ```

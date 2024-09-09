@@ -56,7 +56,8 @@ RUN apt-get update && \
     xterm \
     p7zip-full \
     nomacs \
-    telnet
+    telnet \
+    x11-apps
 
 ENV USER_NAME ubuntu
 RUN echo "${USER_NAME} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${USER_NAME} 

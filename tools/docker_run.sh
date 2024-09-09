@@ -10,11 +10,15 @@ DOCKER_IMAGE="himax/fvp"
 ### check container is ready
 echo "create $container_name container"
 #docker run --rm -it --name himax_fvp himax/fvp bash
-docker run --rm --name himax_fvp -idt \ 
-    -v /home/himax/YOLOv8_on_WE2/docker/runtime:/home/ubuntu/YOLOv8_on_WE2/ml-embedded-evaluation-kit/runtime \ 
+docker run --rm --name himax_fvp -idt --restart unless-stopped \ 
+    -v /home/himax/himax_fvp_dev/:/home/ubuntu/runtime \ 
     himax/fvp bash
 
-docker run --rm -idt -e DISPLAY=:10.0 himax/fvp bash
+docker run --rm -it -e DISPLAY=$DISPLAY \
+        --name himax_fvp \
+        -v /tmp/.X11-unix:/tmp/.X11-unix \
+        -v  /tmp/.X11-unix:/tmp/.X11-unix:ro \
+        himax/fvp bash
 #docker run --rm -it -v /labs/corstone/docker/runtime:/home/ml-embedded-evaluation-kit/runtime \
 #		-e DISPLAY=:0 \
 #		$(DOCKER_IMAGE) bash 
