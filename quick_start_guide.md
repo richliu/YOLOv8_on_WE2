@@ -17,8 +17,8 @@ Upon completion of this learning path, you will be able to:
 
 ### Prerequisites
 Before starting, you will need the following:
-1. TBD
-2. TBD
+1. Ubuntu or Windows WSL enviroment
+2. X
 
 # Set up your Grove Vision AI V2 FVP (Himax WE 2)
 ## Prerequisites
@@ -33,28 +33,39 @@ Before starting, you will need the following:
   ```
   cd YOLOv8_on_WE2
   cd tools
-  docker build -t himax/fvp .
+  docker build -t himax/fvp:dev -f Dockerfile.dev .
   ```
 - Run docker container
   ```
-  docker run --rm --name himax_fvp -idt \
+  docker run --rm --name himax_fvp_dev -idt \
   --net=host \
-  -v /home/$USER/YOLOv8_on_WE2/docker/runtime:/home/ubuntu/YOLOv8_on_WE2/ml-embedded-evaluation-kit/runtime \
+  -v /home/$USER/YOLOv8_on_WE2:/home/ubuntu/YOLOv8_on_WE2 \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v /home/$USER/.Xauthority:/home/ubuntu/.Xauthority:rw \
   -e DISPLAY=$DISPLAY \
-  himax/fvp bash
+  himax/fvp:dev bash
   ```
 - Enter container 
   ```
-  docker exec -it himax_fvp /bin/bash
+  docker exec -it himax_fvp_dev /bin/bash
   ```
-## Build Yolov8 Models with vela
+
+## Install Development Environment in Container
+- Run Installation Script
+  ```
+  cd YOLOv8_on_WE2/
+  tools/install.sh
+  ```
+- Run Post Installation Script
+  ```
+  tools/post_install.sh
+  ```
+## Build Yolov8 Models with vela in Container
   ```
   cd vela
   vela --accelerator-config ethos-u55-64 --config himax_vela.ini --system-config My_Sys_Cfg --memory-mode My_Mem_Mode_Parent --output-dir ./img_yolov8_pose_192 ./img_yolov8_pose_192/yolov8n-pose_full_integer_quant.tflite
   ```
-## Make Yolov8 FVP Inference sample codes
+## Make Yolov8 FVP Inference sample codes in Container
   ```
   cd ../ml-embedded-evaluation-kit/
   mkdir build_img_yolov8_192
@@ -62,7 +73,7 @@ Before starting, you will need the following:
   cmake ../ -DUSE_CASE_BUILD=img_yolov8_192 \-DETHOS_U_NPU_ENABLED=ON
   make -j4
   ```
-## RUN FVP
+## RUN FVP in Container
   ```
   cd ../../
   FVP_Corstone_SSE-300/models/Linux64_GCC-6.4/FVP_Corstone_SSE-300_Ethos-U55 -C ethosu.num_macs=64 ml-embedded-evaluation-kit/build_img_yolov8_192/bin/ethos-u-img_yolov8_192.axf
