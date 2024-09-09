@@ -18,7 +18,7 @@ Upon completion of this learning path, you will be able to:
 ### Prerequisites
 Before starting, you will need the following:
 1. Ubuntu or Windows WSL enviroment
-2. X
+2. Install [VcXsrv](https://github.com/ArcticaProject/vcxsrv/releases/download/1.17.0.0-3/vcxsrv.1.17.0.0-3.x2go.arctica.installer.exe)
 
 # Set up your Grove Vision AI V2 FVP (Himax WE 2)
 ## Prerequisites
