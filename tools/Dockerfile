@@ -148,5 +148,6 @@ RUN sudo sed -i '/pam_loginuid.so/c session    optional     pam_loginuid.so'  /e
 # RUN echo "export VISIBLE=now" >> /etc/profile
 RUN sudo sh -c 'echo "export VISIBLE=now" >> /etc/profile'
 RUN sudo sed -i "s/UsePAM yes/UsePAM no/" /etc/ssh/sshd_config
+RUN sudo ssh-keygen -A
 
 
