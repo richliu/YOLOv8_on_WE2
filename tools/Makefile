@@ -27,6 +27,7 @@ run:
 		-v /tmp/.X11-unix:/tmp/.X11-unix \
 		--volume="/home/richliu/.Xauthority:/root/.Xauthority:rw" \
 		--privileged \
+		-v /home/ubuntu/x64_bin:/home/ubuntu/x64_bin \
 		--workdir /home/ubuntu/YOLOv8_on_WE2/ml-embedded-evaluation-kit/runtime \
 		-e DISPLAY=:0 \
 		-p 2222:22 \

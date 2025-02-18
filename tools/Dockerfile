@@ -146,8 +146,10 @@ RUN echo 'root:root' |sudo chpasswd # echo password | passwd --stdin root
 RUN sudo sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sudo sed -i '/pam_loginuid.so/c session    optional     pam_loginuid.so'  /etc/pam.d/sshd
 # RUN echo "export VISIBLE=now" >> /etc/profile
-RUN sudo sh -c 'echo "export VISIBLE=now" >> /etc/profile'
+RUN sudo bash -c 'echo "export VISIBLE=now" >> /etc/profile'
 RUN sudo sed -i "s/UsePAM yes/UsePAM no/" /etc/ssh/sshd_config
 RUN sudo ssh-keygen -A
 
+# Install qemu for x86 emu
+RUN sudo apt-get install -y qemu-user qemu-user-static
 
