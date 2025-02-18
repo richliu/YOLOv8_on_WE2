@@ -14,9 +14,11 @@ temp/${FVP_300}_Ethos-U55.sh --no-interactive --i-agree-to-the-contained-eula -d
 rm "${FVP_300}_Ethos-U55_${FVP_VER_300}.tgz"
 
 echo "download the 22.02 ml-embedded-evaluation-kit repository"
-wget --no-check-certificate https://review.mlplatform.org/plugins/gitiles/ml/ethos-u/ml-embedded-evaluation-kit/+archive/refs/tags/22.02.tar.gz
+#wget --no-check-certificate https://review.mlplatform.org/plugins/gitiles/ml/ethos-u/ml-embedded-evaluation-kit/+archive/refs/tags/22.02.tar.gz
+wget http://richliu.com/ARM/22.02.2.tar.gz
+
 mkdir ml-embedded-evaluation-kit
-tar -C ml-embedded-evaluation-kit  -xvzf 22.02.tar.gz
+tar -C ml-embedded-evaluation-kit  -xvzf 22.02.2.tar.gz
 
 cp -r ./source/application/main/include ./ml-embedded-evaluation-kit/source/application/main
 cp -r ./source/application/tensorflow-lite-micro/include ./ml-embedded-evaluation-kit/source/application/tensorflow-lite-micro

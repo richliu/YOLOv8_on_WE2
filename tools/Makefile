@@ -23,7 +23,7 @@ build:
 	docker images
 
 run:
-	docker run --rm -it -v /labs/corstone/docker/runtime:/home/ml-embedded-evaluation-kit/runtime \
+	docker run --rm -it -v /home/ubuntu/cs300fvp/runtime:/home/ml-embedded-evaluation-kit/runtime \
 		-e DISPLAY=:0 \
 		$(DOCKER_IMAGE) bash 
 
