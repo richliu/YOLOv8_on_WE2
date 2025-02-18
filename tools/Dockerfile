@@ -64,8 +64,11 @@ RUN echo "${USER_NAME} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${USER_NAME}
 
 
 # Download and install GNU GCC 10.2.1 embedded toolchain
-RUN curl -k -L "https://developer.arm.com/-/media/Files/downloads/gnu-rm/10-2020q4/gcc-arm-none-eabi-10-2020-q4-major-aarch64-linux.tar.bz2?revision=cff794bc-3fb1-4c9c-934b-782886767324&rev=cff794bc3fb14c9c934b782886767324&hash=14BD0CC7D78E6D5E5FCF87DBB6D845C4A651BFD7" -o gcc-arm-none-eabi.tar.xz && \
-    echo "343d8c812934fe5a904c73583a91edd812b1ac20636eb52de04135bb0f5cf36a gcc-arm-none-eabi.tar.xz" | sha256sum -c && \
+RUN curl -k -L "https://developer.arm.com/-/media/Files/downloads/gnu-rm/10-2020q4/gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux.tar.bz2" -o gcc-arm-none-eabi.tar.xz && \
+    echo "21134caa478bbf5352e239fbc6e2da3038f8d2207e089efc96c3b55f1edcd618 gcc-arm-none-eabi.tar.xz" | sha256sum -c && \
+
+# RUN curl -k -L "https://developer.arm.com/-/media/Files/downloads/gnu-rm/10-2020q4/gcc-arm-none-eabi-10-2020-q4-major-aarch64-linux.tar.bz2?revision=cff794bc-3fb1-4c9c-934b-782886767324&rev=cff794bc3fb14c9c934b782886767324&hash=14BD0CC7D78E6D5E5FCF87DBB6D845C4A651BFD7" -o gcc-arm-none-eabi.tar.xz && \
+#    echo "343d8c812934fe5a904c73583a91edd812b1ac20636eb52de04135bb0f5cf36a gcc-arm-none-eabi.tar.xz" | sha256sum -c && \
     mkdir /opt/gcc-arm-none-eabi && \
     tar -xf  gcc-arm-none-eabi.tar.xz -C /opt/gcc-arm-none-eabi --strip-components 1 && \
     rm gcc-arm-none-eabi.tar.xz
@@ -85,7 +88,8 @@ ENV PATH="/opt/gcc-arm-none-eabi/bin/:$PATH"
 # | ITRI
 # +----------------------------------------------------------------------------
 
-RUN git clone -b ci_env "https://github.com/richliu/YOLOv8_on_WE2.git" 
+RUN echo "test"
+RUN git clone -b ci_env "https://github.com/richliu/YOLOv8_on_WE2.git"
 # Change working directory
 WORKDIR ${ITRI_MLFVP_DIR}
 # Initialize submodules
@@ -133,4 +137,16 @@ RUN pip install Pillow
 # WORKDIR ${ITRI_MLFVP_DIR}/ml-embedded-evaluation-kit/build_img_yolov8_192
 # RUN cmake ../ -DUSE_CASE_BUILD=img_yolov8_192 \-DETHOS_U_NPU_ENABLED=ON
 # RUN make -j8
+
+# Install a OPENSSH inside docker 
+RUN sudo apt-get install -y openssh-server apt-utils
+
+RUN sudo mkdir -p /var/run/sshd
+RUN echo 'root:root' |sudo chpasswd # echo password | passwd --stdin root
+RUN sudo sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sudo sed -i '/pam_loginuid.so/c session    optional     pam_loginuid.so'  /etc/pam.d/sshd
+# RUN echo "export VISIBLE=now" >> /etc/profile
+RUN sudo sh -c 'echo "export VISIBLE=now" >> /etc/profile'
+RUN sudo sed -i "s/UsePAM yes/UsePAM no/" /etc/ssh/sshd_config
+
 
