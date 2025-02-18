@@ -23,7 +23,11 @@ build:
 	docker images
 
 run:
-	docker run --rm -it -v /home/ubuntu/cs300fvp/runtime:/home/ml-embedded-evaluation-kit/runtime \
+	docker run --rm -it -v /home/ubuntu/cs300fvp/runtime:/home/ubuntu/YOLOv8_on_WE2/ml-embedded-evaluation-kit/runtime \
+		-v /tmp/.X11-unix:/tmp/.X11-unix \
+		--volume="/home/richliu/.Xauthority:/root/.Xauthority:rw" \
+		--privileged \
+		--workdir /home/ubuntu/YOLOv8_on_WE2/ml-embedded-evaluation-kit/runtime \
 		-e DISPLAY=:0 \
 		$(DOCKER_IMAGE) bash 
 

@@ -88,6 +88,7 @@ ENV PATH="/opt/gcc-arm-none-eabi/bin/:$PATH"
 # | ITRI
 # +----------------------------------------------------------------------------
 
+RUN echo "test"
 RUN git clone -b ci_env "https://github.com/richliu/YOLOv8_on_WE2.git"
 # Change working directory
 WORKDIR ${ITRI_MLFVP_DIR}
@@ -108,7 +109,7 @@ RUN rm "${FVP_300}_Ethos-U55_${FVP_VER_300}.tgz"
 RUN wget http://richliu.com/ARM/22.02.2.tar.gz
 RUN mkdir ml-embedded-evaluation-kit
 RUN tar -C ml-embedded-evaluation-kit  -xvzf 22.02.2.tar.gz
-RUN wget http://richliu.com/ARM/download_dependencies.py
+RUN wget http://richliu.com/ARM/download_dependencies.py -O download_dependencies.py
 
 WORKDIR ${ITRI_MLFVP_DIR}
 RUN tools/install.sh
