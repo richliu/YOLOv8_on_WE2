@@ -140,3 +140,15 @@ RUN pip install Pillow
 # RUN cmake ../ -DUSE_CASE_BUILD=img_yolov8_192 \-DETHOS_U_NPU_ENABLED=ON
 # RUN make -j8
 
+# Install a OPENSSH inside docker 
+RUN sudo apt-get install -y openssh-server apt-utils
+
+RUN sudo mkdir -p /var/run/sshd
+RUN echo 'root:root' |sudo chpasswd # echo password | passwd --stdin root
+RUN sudo sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sudo sed -i '/pam_loginuid.so/c session    optional     pam_loginuid.so'  /etc/pam.d/sshd
+# RUN echo "export VISIBLE=now" >> /etc/profile
+RUN sudo sh -c 'echo "export VISIBLE=now" >> /etc/profile'
+RUN sudo sed -i "s/UsePAM yes/UsePAM no/" /etc/ssh/sshd_config
+
+

@@ -29,6 +29,7 @@ run:
 		--privileged \
 		--workdir /home/ubuntu/YOLOv8_on_WE2/ml-embedded-evaluation-kit/runtime \
 		-e DISPLAY=:0 \
+		-p 2222:22 \
 		$(DOCKER_IMAGE) bash 
 
 clean:
