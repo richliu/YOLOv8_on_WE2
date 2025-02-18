@@ -85,7 +85,7 @@ ENV PATH="/opt/gcc-arm-none-eabi/bin/:$PATH"
 # | ITRI
 # +----------------------------------------------------------------------------
 
-RUN git clone -b ci_env "https://github.com/anitawuitri/YOLOv8_on_WE2.git" 
+RUN git clone -b ci_env "https://github.com/richliu/YOLOv8_on_WE2.git" 
 # Change working directory
 WORKDIR ${ITRI_MLFVP_DIR}
 # Initialize submodules
@@ -102,10 +102,7 @@ RUN rm "${FVP_300}_Ethos-U55_${FVP_VER_300}.tgz"
 
 
 # download the 22.02 ml-embedded-evaluation-kit repository
-RUN wget http://richliu.com/ARM/22.02.2.tar.gz
-RUN mkdir ml-embedded-evaluation-kit
-RUN tar -C ml-embedded-evaluation-kit  -xvzf 22.02.2.tar.gz
-RUN wget http://richliu.com/ARM/download_dependencies.py
+RUN git clone -b 22.02 https://review.mlplatform.org/ml/ethos-u/ml-embedded-evaluation-kit
 
 WORKDIR ${ITRI_MLFVP_DIR}
 RUN tools/install.sh
@@ -114,6 +111,7 @@ RUN tools/install.sh
 WORKDIR ${ITRI_MLFVP_DIR}/ml-embedded-evaluation-kit
 
 RUN rm -rf ./dependencies
+RUN wget http://richliu.com/ARM/download_dependencies.py -O download_dependencies.py
 RUN python3 ./download_dependencies.py
 RUN ./build_default.py --npu-config-name ethos-u55-64
 
