@@ -98,11 +98,18 @@ RUN git submodule update --init
 
 # Download and install Arm Corstone-300 FVP
 RUN mkdir temp
-RUN wget --no-check-certificate "${FVP_BASE_URL}/FVP/Corstone-300/MPS3/${FVP_300}_Ethos-U55_${FVP_VER_300}.tgz"
-RUN echo "${FVP_300_SHA} ${FVP_300}_Ethos-U55_${FVP_VER_300}.tgz" | sha256sum -c
-RUN tar -xf ${FVP_300}_Ethos-U55_${FVP_VER_300}.tgz -C temp 
-RUN temp/${FVP_300}_Ethos-U55.sh --no-interactive --i-agree-to-the-contained-eula -d ${FVP_300}
-RUN rm "${FVP_300}_Ethos-U55_${FVP_VER_300}.tgz"
+# RUN wget --no-check-certificate "${FVP_BASE_URL}/FVP/Corstone-300/MPS3/${FVP_300}_Ethos-U55_${FVP_VER_300}.tgz"
+# RUN echo "${FVP_300_SHA} ${FVP_300}_Ethos-U55_${FVP_VER_300}.tgz" | sha256sum -c
+# RUN tar -xf ${FVP_300}_Ethos-U55_${FVP_VER_300}.tgz -C temp
+# RUN temp/${FVP_300}_Ethos-U55.sh --no-interactive --i-agree-to-the-contained-eula -d ${FVP_300}
+# RUN rm "${FVP_300}_Ethos-U55_${FVP_VER_300}.tgz"
+ENV FVP_BIN_URL="https://developer.arm.com/-/cdn-downloads/permalink/FVPs-Corstone-IoT/Corstone-300/FVP_Corstone_SSE-300_11.27_42_Linux64_armv8l.tgz"
+ENV FVP_300_SHA="32a5e84d5f5e39c2832beda5747b2cba0deafee1ac8e3909d7c3fbcad844d031"
+RUN wget --no-check-certificate "${FVP_BIN_URL}"
+RUN echo "${FVP_300_SHA} FVP_Corstone_SSE-300_11.27_42_Linux64_armv8l.tgz" | sha256sum -c
+RUN tar -xf FVP_Corstone_SSE-300_11.27_42_Linux64_armv8l.tgz -C temp
+RUN temp/FVP_Corstone_SSE-300.sh --no-interactive --i-agree-to-the-contained-eula -d ${FVP_300}
+RUN rm "FVP_Corstone_SSE-300_11.27_42_Linux64_armv8l.tgz"
 
 
 # download the 22.02 ml-embedded-evaluation-kit repository
@@ -139,7 +146,9 @@ RUN pip install Pillow
 # RUN make -j8
 
 # Install a OPENSSH inside docker 
+RUN sudo apt-get update
 RUN sudo apt-get install -y openssh-server apt-utils
+RUN sudo apt-get install -y python3.9
 
 RUN sudo mkdir -p /var/run/sshd
 RUN echo 'root:root' |sudo chpasswd # echo password | passwd --stdin root
@@ -149,7 +158,4 @@ RUN sudo sed -i '/pam_loginuid.so/c session    optional     pam_loginuid.so'  /e
 RUN sudo bash -c 'echo "export VISIBLE=now" >> /etc/profile'
 RUN sudo sed -i "s/UsePAM yes/UsePAM no/" /etc/ssh/sshd_config
 RUN sudo ssh-keygen -A
-
-# Install qemu for x86 emu
-RUN sudo apt-get install -y qemu-user qemu-user-static
 
